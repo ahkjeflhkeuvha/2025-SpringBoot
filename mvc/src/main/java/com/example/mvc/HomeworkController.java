@@ -276,11 +276,8 @@ public class HomeworkController {
     @PatchMapping("/update_message")
     @ResponseBody
     public String updateMessage(@RequestParam("message") String newMessage, @RequestBody String newBodyMessage) {
-        System.out.println("before : " + message);
         message = newMessage;
-        System.out.println("param message : " + message);
         message = newBodyMessage;
-        System.out.println("body message : " + message);
         return newMessage;
     }
 
