@@ -255,7 +255,85 @@ class OptionClass {
     }
 }
 
-@Controller
+class BookInfo {
+    private String title;
+    private String author;
+    private int first_realese;
+    private float rating;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public int getFirst_realese() {
+        return first_realese;
+    }
+
+    public void setFirst_realese(int first_realese) {
+        this.first_realese = first_realese;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    @Override
+    public String toString() {
+        return "BookInfo{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", first_realese=" + first_realese +
+                ", rating=" + rating +
+                '}';
+    }
+}
+
+class BookInfoResult {
+    private String result;
+    private String id;
+    private boolean success;
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+}
+
 @RestController
 @RequestMapping("/work")
 public class HomeworkController {
@@ -328,16 +406,19 @@ public class HomeworkController {
     @PostMapping(value = "/register_email", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public EmailAddress registerEmail(@RequestBody String email) {
-        String[] sepEmail = email.split("\n");
+        String[] sepEmail = email.split(",");
 
         for(String sep : sepEmail) {
-            emailAddress.setEmail_address(sep);
+            String trimedEmail = sep.trim();
+            if (!trimedEmail.equals("")) {
+                emailAddress.setEmail_address(trimedEmail);
+            }
         }
 
         return emailAddress;
     }
 
-    @PostMapping("/get_seven_json")
+    @PostMapping(value = "/get_seven_json", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public HashMap<String, Object> sevenJson(@RequestBody SevenJson sevenJson) {
         HashMap<String, Object> hash = new HashMap<String, Object>();
@@ -346,14 +427,27 @@ public class HomeworkController {
         return hash;
     }
 
-    @PostMapping("/get_eight_json")
+    @PostMapping(value = "/get_eight_json", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public EightResult eightJson(@RequestBody EightJson eightJson) {
+    public EightResult eightJson(@RequestBody HashMap<String, Object> eightJson) {
         EightResult er = new EightResult();
         er.setResult("created");
         er.setId("a1234");
         er.setSuccess(true);
         return er;
+    }
+
+
+    @PostMapping("/book_info")
+    @ResponseBody
+    public BookInfoResult bookInfo(@RequestBody BookInfo bookInfo){
+        System.out.println(bookInfo);
+        BookInfoResult res = new BookInfoResult();
+        res.setId("a1234");
+        res.setResult("created");
+        res.setSuccess(true);
+
+        return res;
     }
 
     @PostMapping("/print_times")
