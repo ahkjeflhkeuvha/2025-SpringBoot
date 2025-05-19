@@ -314,6 +314,7 @@ public class Practice {
     }
 
     @PostMapping("/vote/make_vote")
+    @ResponseBody
     public ResponseEntity<VoteClass> makeVote(@RequestParam("idx") int idx) {
         VoteClass vote = votes.get(idx);
         vote.setCount(vote.getCount() + 1);
