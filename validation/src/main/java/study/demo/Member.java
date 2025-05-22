@@ -1,5 +1,6 @@
 package study.demo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -31,6 +32,7 @@ class Member implements Serializable {
     // 검증용 메소드를 정의한 후 @AssertTrue 혹은 @AssertFalse 어노테이션 사용
     // @AssertTrue : 반환값이 "참"이어야 검증 통과로 가정
     @AssertTrue(message = "성별은 여성이거나 남성이어야 합니다.")
+    @JsonIgnore
     public boolean isValidGender() {
         // false 반환하여 검증 실패
         if (gender == null) return false;
